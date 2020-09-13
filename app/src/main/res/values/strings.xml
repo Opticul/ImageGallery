@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">ImageGallery</string>
+    <string name="imageName">Lorem Ipsum</string>
+    <string name="favoriteOnDetailPage">Favorite</string>
+    <string name="imageDescription">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer feugiat porttitor nulla nec ornare. Nulla condimentum arcu vel diam maximus pellentesque. Mauris rutrum faucibus pretium. Vivamus consectetur, libero sed sollicitudin venenatis.</string>
+    <string name="imageURLText">Image Url</string>
+    <string name="showFavorites">Favorites</string>
+    <string name="showAll">Show All</string>
+    <string name="shareButton">Share</string>
+    <string name="SHARED_PREF_NAME">com.opticul.imagegallery.prefs</string>
+    <string name="SAVED_FAVORITES">saved_favorites</string>
+    <string name="FavoriteLogo">❤</string>
+    <string name="searchText">Search</string>
+    <string name="searchButton">Search</string>
+    <string name="downloads">Downloads: </string>
+    <string name="likes">Likes: </string>
+    <string name="views">Views: </string>
+    <string name="favorites">Favorites: </string>
+
+
+</resources>
