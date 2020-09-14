@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log.d
+import android.view.inputmethod.EditorInfo
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -55,6 +56,18 @@ class MainActivity : AppCompatActivity() {
                 search(searchField.text.toString())
             }
         }
+
+        searchField.setOnEditorActionListener { v, actionId, event ->
+            if(actionId != EditorInfo.IME_NULL){
+                GlobalScope.launch {
+                    search(searchField.text.toString())
+                }
+                true
+            } else {
+                false
+            }
+        }
+
     }
 
     override fun onResume() {
