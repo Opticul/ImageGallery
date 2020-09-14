@@ -19,6 +19,9 @@ class ImageDetailActivity : AppCompatActivity() {
         val item = intent.extras?.getString("url")
         if (item != null) {
             var retrievedPhoto = MainActivity.imageMap[item]
+            if (retrievedPhoto == null){
+                retrievedPhoto = MainActivity.favoritesImageMap[item]
+            }
             if (retrievedPhoto != null) {
                 thisPhoto = retrievedPhoto
             }

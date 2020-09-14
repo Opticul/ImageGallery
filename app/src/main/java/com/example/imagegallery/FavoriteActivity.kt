@@ -25,16 +25,20 @@ class FavoriteActivity : AppCompatActivity() {
         updateRecycler()
     }
 
-    private fun updateRecycler(){
+    fun updateRecycler(){
+        var urlArray = MainActivity.favoritesArray
 
         layoutManager = LinearLayoutManager(this)
+
         recyclerView.layoutManager = layoutManager
 
         showAllButton.setOnClickListener {
             val showAllIntent = Intent(this, MainActivity::class.java)
             ContextCompat.startActivity(this, showAllIntent, null)
         }
-        adapter = TheFavoriteAdapter(MainActivity.urlArray)
+
+        adapter = TheFavoriteAdapter(urlArray as ArrayList<String>)
         recyclerView.adapter = adapter
     }
+
 }
