@@ -1,4 +1,4 @@
-package com.example.imagegallery;
+package com.example.imagegallery.utilities;
 
 import android.content.Context;
 

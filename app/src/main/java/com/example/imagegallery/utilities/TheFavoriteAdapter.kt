@@ -1,6 +1,5 @@
-package com.example.imagegallery
+package com.example.imagegallery.utilities
 
-import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
@@ -8,8 +7,10 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_image_detail.*
+import com.example.imagegallery.ui.favorites.FavoriteActivity
+import com.example.imagegallery.MainActivity
+import com.example.imagegallery.R
+import com.example.imagegallery.ui.photos.ImageDetailActivity
 import kotlinx.android.synthetic.main.image_as_part_of_list.view.*
 
 class TheFavoriteAdapter(val inURLs: ArrayList<String>) : RecyclerView.Adapter<TheFavoriteAdapter.TextHolder>() {
@@ -45,7 +46,7 @@ class TheFavoriteAdapter(val inURLs: ArrayList<String>) : RecyclerView.Adapter<T
             MainActivity.favoritesImageMap.remove(item)
             MainActivity.favoritesArray.remove(item)
 
-            var myIntent = Intent(view.context,FavoriteActivity::class.java)
+            var myIntent = Intent(view.context, FavoriteActivity::class.java)
             ContextCompat.startActivity(view.context, myIntent,null)
             return true
         }
@@ -62,7 +63,7 @@ class TheFavoriteAdapter(val inURLs: ArrayList<String>) : RecyclerView.Adapter<T
         return inURLs.count()
     }
 
-    override fun onBindViewHolder(holder: TheFavoriteAdapter.TextHolder, position: Int) {
+    override fun onBindViewHolder(holder: TextHolder, position: Int) {
         val thisString = inURLs[position]
         holder.bindItem(thisString)
     }

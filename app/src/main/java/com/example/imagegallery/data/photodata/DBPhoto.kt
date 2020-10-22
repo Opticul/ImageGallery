@@ -1,4 +1,4 @@
-package com.example.imagegallery.data
+package com.example.imagegallery.data.photodata
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

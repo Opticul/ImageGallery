@@ -1,11 +1,10 @@
 package com.example.imagegallery
 
-import com.example.imagegallery.data.DBPhoto
+import com.example.imagegallery.data.photodata.DBPhoto
+import com.example.imagegallery.data.photodata.DBPhotoList
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
-import retrofit2.http.QueryMap
-import retrofit2.http.Url as Url1
 
 //Used for Jsonplaceholder page
 interface ApiService {

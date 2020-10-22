@@ -1,4 +1,4 @@
-package com.example.imagegallery.data
+package com.example.imagegallery.data.photodata
 
 import android.content.Context
 import androidx.room.Database
@@ -14,7 +14,7 @@ abstract class PhotoDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE : PhotoDatabase? = null
 
-        fun getDatabase(context : Context): PhotoDatabase{
+        fun getDatabase(context : Context): PhotoDatabase {
             val tempInstance = INSTANCE
             if(tempInstance != null){
                 return tempInstance

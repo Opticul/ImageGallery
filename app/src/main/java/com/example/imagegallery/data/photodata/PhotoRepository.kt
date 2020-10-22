@@ -1,6 +1,4 @@
-package com.example.imagegallery.data
-
-import androidx.lifecycle.LiveData
+package com.example.imagegallery.data.photodata
 
 class PhotoRepository(private val photoDao : PhotoDao) {
    // val readAllData: LiveData<List<DBPhoto>> = photoDao.readAllData()
