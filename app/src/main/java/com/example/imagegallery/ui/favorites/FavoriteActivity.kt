@@ -28,7 +28,7 @@ class FavoriteActivity : AppCompatActivity() {
     }
 
     fun updateRecycler(){
-        var urlArray = MainActivity.favoritesArray
+        val urlArray = MainActivity.favoritesArray
 
         layoutManager = LinearLayoutManager(this)
 

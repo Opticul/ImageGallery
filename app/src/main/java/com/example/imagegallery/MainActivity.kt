@@ -92,9 +92,11 @@ class MainActivity : AppCompatActivity() {
             override fun onResponse(call: Call<DBPhotoList>, response: Response<DBPhotoList?>) {
                 urlArray.clear()
                 imageMap.clear()
-                for (photo in response.body()!!.hits){
-                    imageMap.put(photo.webformatURL,photo)
-                    urlArray.add(photo.webformatURL)
+                if(response.body() != null) {
+                    for (photo in response.body()!!.hits) {
+                        imageMap.put(photo.webformatURL, photo)
+                        urlArray.add(photo.webformatURL)
+                    }
                 }
                 println(urlArray.count())
                 updateRecycler()
@@ -115,7 +117,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getFavorites() : List<DBPhoto> {
-        return mPhotoViewModel.readAllData
+        return mPhotoViewModel.favorites
     }
 
 private fun setFavorites(favorites: List<DBPhoto>) {
