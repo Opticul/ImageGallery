@@ -8,8 +8,11 @@ import android.view.inputmethod.EditorInfo
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.imagegallery.data.DBPhoto
-import com.example.imagegallery.data.PhotoViewModel
+import com.example.imagegallery.data.photodata.DBPhoto
+import com.example.imagegallery.data.photodata.DBPhotoList
+import com.example.imagegallery.ui.favorites.FavoriteActivity
+import com.example.imagegallery.ui.photos.PhotoViewModel
+import com.example.imagegallery.utilities.TheAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.recyclerView
 import kotlinx.coroutines.GlobalScope
@@ -25,9 +28,9 @@ class MainActivity : AppCompatActivity() {
 
     companion object FavoriteArray {
         var urlArray = arrayListOf("")
-        var imageMap = mutableMapOf<String,DBPhoto>()
+        var imageMap = mutableMapOf<String, DBPhoto>()
         var favoritesArray = mutableListOf<String>()
-        var favoritesImageMap = mutableMapOf<String,DBPhoto>()
+        var favoritesImageMap = mutableMapOf<String, DBPhoto>()
         lateinit var mPhotoViewModel: PhotoViewModel
     }
     lateinit var layoutManager: LinearLayoutManager

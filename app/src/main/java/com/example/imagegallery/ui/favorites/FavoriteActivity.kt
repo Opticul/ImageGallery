@@ -1,12 +1,14 @@
-package com.example.imagegallery
+package com.example.imagegallery.ui.favorites
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.imagegallery.MainActivity
+import com.example.imagegallery.R
+import com.example.imagegallery.utilities.TheFavoriteAdapter
 import kotlinx.android.synthetic.main.activity_favorite.*
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.recyclerView
 
 class FavoriteActivity : AppCompatActivity() {

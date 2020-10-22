@@ -1,9 +1,10 @@
-package com.example.imagegallery.data
+package com.example.imagegallery.ui.photos
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.viewModelScope
+import com.example.imagegallery.data.photodata.DBPhoto
+import com.example.imagegallery.data.photodata.PhotoDatabase
+import com.example.imagegallery.data.photodata.PhotoRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.*
 

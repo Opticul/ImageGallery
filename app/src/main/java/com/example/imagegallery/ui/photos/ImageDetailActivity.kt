@@ -1,10 +1,12 @@
-package com.example.imagegallery
+package com.example.imagegallery.ui.photos
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
-import com.example.imagegallery.data.DBPhoto
+import com.example.imagegallery.MainActivity
+import com.example.imagegallery.R
+import com.example.imagegallery.data.photodata.DBPhoto
 import kotlinx.android.synthetic.main.activity_image_detail.*
 
 class ImageDetailActivity : AppCompatActivity() {

@@ -1,6 +1,5 @@
-package com.example.imagegallery.data
+package com.example.imagegallery.data.photodata
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 
 @Dao

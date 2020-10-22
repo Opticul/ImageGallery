@@ -1,6 +1,5 @@
-package com.example.imagegallery
+package com.example.imagegallery.utilities
 
-import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
@@ -8,8 +7,9 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_image_detail.*
+import com.example.imagegallery.MainActivity
+import com.example.imagegallery.R
+import com.example.imagegallery.ui.photos.ImageDetailActivity
 import kotlinx.android.synthetic.main.image_as_part_of_list.view.*
 
 class TheAdapter(val inURLs: ArrayList<String>) : RecyclerView.Adapter<TheAdapter.TextHolder>() {
@@ -54,7 +54,8 @@ class TheAdapter(val inURLs: ArrayList<String>) : RecyclerView.Adapter<TheAdapte
                 view.favoriteHeart.visibility = View.INVISIBLE
             } else {
                 val thisPhoto = MainActivity.imageMap[item]
-                if (thisPhoto != null) {MainActivity.mPhotoViewModel.addPhoto(thisPhoto)
+                if (thisPhoto != null) {
+                    MainActivity.mPhotoViewModel.addPhoto(thisPhoto)
                     MainActivity.favoritesImageMap[item] = thisPhoto
                     MainActivity.favoritesArray.add(item)
                     view.favoriteHeart.visibility = View.VISIBLE
@@ -76,7 +77,7 @@ class TheAdapter(val inURLs: ArrayList<String>) : RecyclerView.Adapter<TheAdapte
         return inURLs.count()
     }
 
-    override fun onBindViewHolder(holder: TheAdapter.TextHolder, position: Int) {
+    override fun onBindViewHolder(holder: TextHolder, position: Int) {
         val thisString = inURLs[position]
         holder.bindItem(thisString)
     }
