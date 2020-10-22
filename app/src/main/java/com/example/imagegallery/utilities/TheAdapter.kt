@@ -49,13 +49,13 @@ class TheAdapter(val inURLs: ArrayList<String>) : RecyclerView.Adapter<TheAdapte
 
                 val thisPhoto = MainActivity.favoritesImageMap[item]
                 if (thisPhoto != null) {
-                    MainActivity.mPhotoViewModel.deletePhoto(thisPhoto)
+                    MainActivity.mPhotoViewModel.deleteFavorite(thisPhoto)
                 }
                 view.favoriteHeart.visibility = View.INVISIBLE
             } else {
                 val thisPhoto = MainActivity.imageMap[item]
                 if (thisPhoto != null) {
-                    MainActivity.mPhotoViewModel.addPhoto(thisPhoto)
+                    MainActivity.mPhotoViewModel.addFavorite(thisPhoto)
                     MainActivity.favoritesImageMap[item] = thisPhoto
                     MainActivity.favoritesArray.add(item)
                     view.favoriteHeart.visibility = View.VISIBLE

@@ -41,7 +41,7 @@ class TheFavoriteAdapter(val inURLs: ArrayList<String>) : RecyclerView.Adapter<T
            //No need to check, everything in favorites are favorites
             val thisPhoto = MainActivity.favoritesImageMap[item]
             if (thisPhoto != null) {
-                MainActivity.mPhotoViewModel.deletePhoto(thisPhoto)
+                MainActivity.mPhotoViewModel.deleteFavorite(thisPhoto)
             }
             MainActivity.favoritesImageMap.remove(item)
             MainActivity.favoritesArray.remove(item)

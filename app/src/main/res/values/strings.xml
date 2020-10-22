@@ -16,6 +16,8 @@
     <string name="likes">Likes: </string>
     <string name="views">Views: </string>
     <string name="favorites">Favorites: </string>
+    <string name="favorite">Favorite</string>
+    <string name="unfavorite">Unfavorite</string>
 
 
 </resources>

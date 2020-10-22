@@ -3,8 +3,8 @@ package com.example.imagegallery.ui.photos
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import com.example.imagegallery.data.photodata.DBPhoto
-import com.example.imagegallery.data.photodata.PhotoDatabase
-import com.example.imagegallery.data.photodata.PhotoRepository
+import com.example.imagegallery.data.favoritedata.FavoritesDB
+import com.example.imagegallery.data.favoritedata.FavoritesRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.*
 
@@ -12,25 +12,25 @@ import kotlinx.coroutines.*
 class PhotoViewModel(application: Application) : AndroidViewModel(application){
 
    // val readAllData: LiveData<List<DBPhoto>>
-   val readAllData: List<DBPhoto>
+   val favorites: List<DBPhoto>
 
-    private val repository : PhotoRepository
+    private val repository : FavoritesRepository
 
     init {
-        var photoDao = PhotoDatabase.getDatabase((application)).photoDao()
-        repository = PhotoRepository(photoDao)
-        readAllData = repository.readAllData
+        var photoDao = FavoritesDB.getDatabase((application)).photoDao()
+        repository = FavoritesRepository(photoDao)
+        favorites = repository.getFavorites()
     }
 
-    fun addPhoto(dbPhoto: DBPhoto){
+    fun addFavorite(dbPhoto: DBPhoto){
         GlobalScope.launch(Dispatchers.IO) {
-            repository.addPhoto(dbPhoto)
+            repository.addFavorite(dbPhoto)
         }
     }
 
-    fun deletePhoto(dbPhoto: DBPhoto){
+    fun deleteFavorite(dbPhoto: DBPhoto){
         GlobalScope.launch(Dispatchers.IO) {
-            repository.deletePhoto(dbPhoto)
+            repository.deleteFavorite(dbPhoto)
         }
     }
 }

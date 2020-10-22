@@ -28,7 +28,7 @@ class ImageDetailActivity : AppCompatActivity() {
                 thisPhoto = retrievedPhoto
             }
             if (MainActivity.favoritesArray.contains(item)){
-            imageDetailButton.text = "Unfavorite"
+            imageDetailButton.text = getString(R.string.unfavorite)
             }
         }
        // Picasso.get().load(item).into(image_as_detailed_imageView);
@@ -61,14 +61,14 @@ class ImageDetailActivity : AppCompatActivity() {
             if (item != null) {
                 if (imageDetailButton.text == "Favorite") {
                     MainActivity.favoritesArray.add(item)
-                    MainActivity.mPhotoViewModel.addPhoto(thisPhoto)
+                    MainActivity.mPhotoViewModel.addFavorite(thisPhoto)
                     MainActivity.favoritesImageMap.put(item,thisPhoto)
-                    imageDetailButton.text = "Unfavorite"
+                    imageDetailButton.text = getString(R.string.unfavorite)
                 } else {
                     MainActivity.favoritesArray.remove(item)
                     MainActivity.favoritesImageMap.remove(item)
-                    MainActivity.mPhotoViewModel.deletePhoto((thisPhoto))
-                    imageDetailButton.text = "Favorite"
+                    MainActivity.mPhotoViewModel.deleteFavorite((thisPhoto))
+                    imageDetailButton.text = getString(R.string.favorite)
                 }
 
             }

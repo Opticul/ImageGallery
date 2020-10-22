@@ -1,20 +1,22 @@
-package com.example.imagegallery.data.photodata
+package com.example.imagegallery.data.favoritedata
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-@Database(entities = [DBPhoto::class], version = 3, exportSchema = false)
-abstract class PhotoDatabase : RoomDatabase() {
+import com.example.imagegallery.data.photodata.DBPhoto
 
-    abstract fun photoDao() : PhotoDao
+@Database(entities = [DBPhoto::class], version = 3, exportSchema = false)
+abstract class FavoritesDB : RoomDatabase() {
+
+    abstract fun photoDao() : FavoritesDao
 
     //Singleton database pattern
     companion object{
         @Volatile
-        private var INSTANCE : PhotoDatabase? = null
+        private var INSTANCE : FavoritesDB? = null
 
-        fun getDatabase(context : Context): PhotoDatabase {
+        fun getDatabase(context : Context): FavoritesDB {
             val tempInstance = INSTANCE
             if(tempInstance != null){
                 return tempInstance
@@ -23,7 +25,7 @@ abstract class PhotoDatabase : RoomDatabase() {
             synchronized(this){
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
-                    PhotoDatabase::class.java,
+                    FavoritesDB::class.java,
                     "photo_data"
                 ).fallbackToDestructiveMigration(). allowMainThreadQueries().build()
                 INSTANCE = instance
