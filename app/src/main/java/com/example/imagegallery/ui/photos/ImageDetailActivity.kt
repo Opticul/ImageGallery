@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.imagegallery.MainActivity
 import com.example.imagegallery.R
-import com.example.imagegallery.data.photodata.DBPhoto
+import com.example.imagegallery.data.photodata.Photo
 import kotlinx.android.synthetic.main.activity_image_detail.*
 
 class ImageDetailActivity : AppCompatActivity() {
@@ -14,7 +14,7 @@ class ImageDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_image_detail)
     }
-    private lateinit var thisPhoto : DBPhoto
+    private lateinit var thisPhoto : Photo
     override fun onStart() {
         super.onStart()
 

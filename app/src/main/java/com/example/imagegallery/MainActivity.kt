@@ -8,8 +8,8 @@ import android.view.inputmethod.EditorInfo
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.imagegallery.data.photodata.DBPhoto
-import com.example.imagegallery.data.photodata.DBPhotoList
+import com.example.imagegallery.data.photodata.Photo
+import com.example.imagegallery.data.photodata.PhotoList
 import com.example.imagegallery.ui.favorites.FavoriteActivity
 import com.example.imagegallery.ui.photos.PhotoViewModel
 import com.example.imagegallery.utilities.TheAdapter
@@ -28,9 +28,9 @@ class MainActivity : AppCompatActivity() {
 
     companion object FavoriteArray {
         var urlArray = arrayListOf("")
-        var imageMap = mutableMapOf<String, DBPhoto>()
+        var imageMap = mutableMapOf<String, Photo>()
         var favoritesArray = mutableListOf<String>()
-        var favoritesImageMap = mutableMapOf<String, DBPhoto>()
+        var favoritesImageMap = mutableMapOf<String, Photo>()
         lateinit var mPhotoViewModel: PhotoViewModel
     }
     lateinit var layoutManager: LinearLayoutManager
@@ -49,6 +49,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
         mPhotoViewModel = ViewModelProvider(this).get(PhotoViewModel::class.java)
 
             var favorites = getFavorites()
@@ -60,7 +61,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        searchField.setOnEditorActionListener { v, actionId, event ->
+        searchField.setOnEditorActionListener { _, actionId, _ ->
             if(actionId != EditorInfo.IME_NULL){
                 GlobalScope.launch {
                     search(searchField.text.toString())
@@ -84,12 +85,12 @@ class MainActivity : AppCompatActivity() {
         var cleanString = re.replace(searchWords, "")
         cleanString = cleanString.replace("\\s".toRegex(), "+")
 
-        myAPI.fetchAllPhotos("18282472-6c502b3572ec282c7e32710e9",cleanString,"photo", 200).enqueue(object : Callback<DBPhotoList>{
-            override fun onFailure(call: Call<DBPhotoList>, t: Throwable) {
+        myAPI.fetchAllPhotos("18282472-6c502b3572ec282c7e32710e9",cleanString,"photo", 200).enqueue(object : Callback<PhotoList>{
+            override fun onFailure(call: Call<PhotoList>, t: Throwable) {
                 d("error","errorMessage: ${t.message}")
             }
 
-            override fun onResponse(call: Call<DBPhotoList>, response: Response<DBPhotoList?>) {
+            override fun onResponse(call: Call<PhotoList>, response: Response<PhotoList?>) {
                 urlArray.clear()
                 imageMap.clear()
                 if(response.body() != null) {
@@ -116,11 +117,11 @@ class MainActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
     }
 
-    private fun getFavorites() : List<DBPhoto> {
+    private fun getFavorites() : List<Photo> {
         return mPhotoViewModel.favorites
     }
 
-private fun setFavorites(favorites: List<DBPhoto>) {
+private fun setFavorites(favorites: List<Photo>) {
     if (favorites.count() > 0) {
         favoritesArray.clear()
         favoritesImageMap.clear()

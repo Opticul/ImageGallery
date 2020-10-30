@@ -27,7 +27,6 @@
         android:layout_marginBottom="0dp"
         android:gravity="bottom|end"
         android:text="@string/FavoriteLogo"
-        android:textAlignment="center"
         android:textColor="#FD0202"
         android:textSize="50sp"
         android:visibility="invisible" />
