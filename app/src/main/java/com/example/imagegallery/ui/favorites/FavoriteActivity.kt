@@ -7,13 +7,11 @@ import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.imagegallery.MainActivity
 import com.example.imagegallery.R
-import com.example.imagegallery.TestMainActivity
-import com.example.imagegallery.ui.photos.ImageDetailActivity
+import com.example.imagegallery.MainActivity
 import com.example.imagegallery.utilities.InjectorUtils
 import com.example.imagegallery.ui.favorites.FavoriteTextHolder.ClickType.*
-import com.example.imagegallery.ui.photos.TestImageDetailActivity
+import com.example.imagegallery.ui.photos.ImageDetailActivity
 import com.example.imagegallery.utilities.TheFavoriteAdapter
 import kotlinx.android.synthetic.main.activity_favorite.*
 import kotlinx.android.synthetic.main.activity_main.recyclerView
@@ -35,7 +33,7 @@ class FavoriteActivity : AppCompatActivity() {
     private fun initializeUI() {
 
         showAllButton.setOnClickListener {
-            val showAllIntent = Intent(this, TestMainActivity::class.java)
+            val showAllIntent = Intent(this, MainActivity::class.java)
             ContextCompat.startActivity(this, showAllIntent, null)
         }
 
@@ -63,7 +61,7 @@ class FavoriteActivity : AppCompatActivity() {
                 }
                 is Item -> ContextCompat.startActivity(
                     clickType.viewContext,
-                    Intent(clickType.viewContext, TestImageDetailActivity::class.java)
+                    Intent(clickType.viewContext, ImageDetailActivity::class.java)
                         .putExtra("id", clickType.itemId),
                     null
                 )

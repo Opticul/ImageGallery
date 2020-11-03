@@ -2,44 +2,52 @@ package com.example.imagegallery.ui.photos
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
-import com.example.imagegallery.MainActivity
+import com.example.imagegallery.HasAppComponent
 import com.example.imagegallery.R
 import com.example.imagegallery.data.photodata.Photo
 import kotlinx.android.synthetic.main.activity_image_detail.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class ImageDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_image_detail)
     }
-    private lateinit var thisPhoto : Photo
+
+    private lateinit var thisPhoto: Photo
+    private val favoritesRepository by lazy { (applicationContext as HasAppComponent).favoritesRepository }
+    private val photoRepository by lazy { (applicationContext as HasAppComponent).photoRepository }
+
     override fun onStart() {
         super.onStart()
 
-        val item = intent.extras?.getString("url")
-        if (item != null) {
-            var retrievedPhoto = MainActivity.imageMap[item]
-            if (retrievedPhoto == null){
-                retrievedPhoto = MainActivity.favoritesImageMap[item]
-            }
-            if (retrievedPhoto != null) {
-                thisPhoto = retrievedPhoto
-            }
-            if (MainActivity.favoritesArray.contains(item)){
-            imageDetailButton.text = getString(R.string.unfavorite)
-            }
+        val itemID = intent.extras?.getInt("id")
+
+        thisPhoto = photoRepository.getImageById(itemID ?: 0)
+        if (thisPhoto.id == 0) {
+            thisPhoto = favoritesRepository.getFavoriteByID(itemID ?: 0)
         }
-       // Picasso.get().load(item).into(image_as_detailed_imageView);
-        Glide.with(this).load(item).into(image_as_detailed_imageView);
+
+        //Implement favorite mechanism here
+        if (thisPhoto.localFavorite) {
+            imageDetailButton.text = getString(R.string.unfavorite)
+        } else {
+            imageDetailButton.text = getString(R.string.favorite)
+        }
+
+        // Picasso.get().load(item).into(image_as_detailed_imageView);
+        Glide.with(this).load(thisPhoto.webformatURL).into(image_as_detailed_imageView);
         val setTitle = "${thisPhoto.id} by ${thisPhoto.user}-${thisPhoto.user_id}"
         val setDownloads = "Downloads: " + thisPhoto.downloads.toString()
         val setViews = "Views: " + thisPhoto.views.toString()
         val setFavorites = "Favorites: " + thisPhoto.favorites.toString()
         val setLikes = "Likes: " + thisPhoto.likes.toString()
         imageTitle.text = setTitle
-        imageURL.text = item
+        imageURL.text = thisPhoto.webformatURL
         downloads.text = setDownloads
         views.text = setViews
         favorites.text = setFavorites
@@ -47,7 +55,7 @@ class ImageDetailActivity : AppCompatActivity() {
 
         val sendIntent: Intent = Intent().apply {
             action = Intent.ACTION_SEND
-            putExtra(Intent.EXTRA_TEXT, item)
+            putExtra(Intent.EXTRA_TEXT, thisPhoto.webformatURL)
             type = "text/plain"
         }
 
@@ -55,22 +63,24 @@ class ImageDetailActivity : AppCompatActivity() {
 
         shareButton.setOnClickListener {
             startActivity(shareIntent)
-            }
+        }
 
         imageDetailButton.setOnClickListener {
-            if (item != null) {
-                if (imageDetailButton.text == "Favorite") {
-                    MainActivity.favoritesArray.add(item)
-                    MainActivity.mPhotoViewModel.addFavorite(thisPhoto)
-                    MainActivity.favoritesImageMap.put(item,thisPhoto)
-                    imageDetailButton.text = getString(R.string.unfavorite)
-                } else {
-                    MainActivity.favoritesArray.remove(item)
-                    MainActivity.favoritesImageMap.remove(item)
-                    MainActivity.mPhotoViewModel.deleteFavorite((thisPhoto))
-                    imageDetailButton.text = getString(R.string.favorite)
+            if (thisPhoto.id == 0) {
+                imageDetailButton.visibility = View.GONE
+            }
+            if (thisPhoto.localFavorite) {
+                imageDetailButton.text = getString(R.string.favorite)
+                thisPhoto.localFavorite = false
+                GlobalScope.launch {
+                    favoritesRepository.deleteFavorite(thisPhoto)
                 }
-
+            } else {
+                thisPhoto.localFavorite = true
+                GlobalScope.launch {
+                    favoritesRepository.addFavorite(thisPhoto)
+                }
+                imageDetailButton.text = getString(R.string.unfavorite)
             }
         }
     }

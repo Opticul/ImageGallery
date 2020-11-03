@@ -1,38 +1,18 @@
 package com.example.imagegallery.ui.photos
 
-import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
-import com.example.imagegallery.data.photodata.Photo
-import com.example.imagegallery.data.favoritedata.FavoritesDB
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.example.imagegallery.data.favoritedata.FavoritesRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.*
+import com.example.imagegallery.data.photodata.Photo
+import com.example.imagegallery.data.photodata.PhotoRepository
 
+class PhotoViewModel(private val photoRepository: PhotoRepository) : ViewModel() {
 
-class PhotoViewModel(application: Application) : AndroidViewModel(application){
+    fun getSearchResults() = photoRepository.getSearchResults()
 
-   // val readAllData: LiveData<List<DBPhoto>>
-   val favorites: List<Photo>
-
-    private val repository : FavoritesRepository
-
-    init {
-        val photoDao = FavoritesDB.getDatabase((application)).favoritesDao()
-        repository = FavoritesRepository(photoDao)
-        favorites = repository.getFavorites()
-    }
-
-    fun addFavorite(photo: Photo){
-        GlobalScope.launch(Dispatchers.IO) {
-            repository.addFavorite(photo)
-        }
-    }
-
-    fun deleteFavorite(photo: Photo){
-        GlobalScope.launch(Dispatchers.IO) {
-            repository.deleteFavorite(photo)
-        }
-    }
-
+    fun search(searchWord : String) = photoRepository.search(searchWord)
 
 }

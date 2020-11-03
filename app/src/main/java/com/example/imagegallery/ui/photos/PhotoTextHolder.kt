@@ -1,16 +1,10 @@
 package com.example.imagegallery.ui.photos
 
 import android.content.Context
-import android.content.Intent
-import android.util.Log
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.imagegallery.MainActivity
 import com.example.imagegallery.data.photodata.Photo
-import com.example.imagegallery.ui.favorites.FavoriteActivity
-import com.example.imagegallery.ui.photos.ImageDetailActivity
 import kotlinx.android.synthetic.main.image_as_part_of_list.view.*
 
 class PhotoTextHolder(
@@ -30,10 +24,8 @@ class PhotoTextHolder(
         else {view.favoriteHeart.visibility = View.INVISIBLE}
         view.setOnLongClickListener {
             if (item.localFavorite) {
-                item.localFavorite = false
                 view.favoriteHeart.visibility = View.INVISIBLE
             } else {
-                item.localFavorite = true
                 view.favoriteHeart.visibility = View.VISIBLE
             }
             clickListener(ClickType.ChangeFavoriteStatus(item)); true

@@ -17,8 +17,8 @@
         tools:targetApi="m"
         android:name=".MainApplication">
         <activity android:name=".ui.favorites.FavoriteActivity"></activity>
-        <activity android:name=".ui.photos.TestImageDetailActivity" />
-        <activity android:name=".TestMainActivity">
+        <activity android:name=".ui.photos.ImageDetailActivity" />
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -1,70 +1,48 @@
 package com.example.imagegallery
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log.d
+import android.util.Log
 import android.view.inputmethod.EditorInfo
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.imagegallery.data.photodata.Photo
-import com.example.imagegallery.data.photodata.PhotoList
 import com.example.imagegallery.ui.favorites.FavoriteActivity
-import com.example.imagegallery.ui.photos.PhotoViewModel
-import com.example.imagegallery.utilities.TheAdapter
+import com.example.imagegallery.ui.photos.*
+import com.example.imagegallery.utilities.InjectorUtils
+import com.example.imagegallery.utilities.LiveDataAdapter
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_main.recyclerView
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 
 class MainActivity : AppCompatActivity() {
 
-    companion object FavoriteArray {
-        var urlArray = arrayListOf("")
-        var imageMap = mutableMapOf<String, Photo>()
-        var favoritesArray = mutableListOf<String>()
-        var favoritesImageMap = mutableMapOf<String, Photo>()
-        lateinit var mPhotoViewModel: PhotoViewModel
-    }
     lateinit var layoutManager: LinearLayoutManager
-    lateinit var adapter: TheAdapter
-
-
-    val retrofit = Retrofit.Builder()
-        // .baseUrl("https://jsonplaceholder.typicode.com")
-        .baseUrl("https://pixabay.com/")
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-
-    val myAPI = retrofit.create(ApiServicePixabayCustom::class.java)
+    lateinit var mPhotoViewModel: PhotoViewModel
+    private val favoritesRepository by lazy {(applicationContext as HasAppComponent).favoritesRepository }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        initializeUI()
+    }
 
+    private fun initializeUI() {
 
-        mPhotoViewModel = ViewModelProvider(this).get(PhotoViewModel::class.java)
-
-            var favorites = getFavorites()
-            setFavorites(favorites)
-
-        searchButton.setOnClickListener{
+        searchButton.setOnClickListener {
             GlobalScope.launch {
-                search(searchField.text.toString())
+                mPhotoViewModel.search(searchField.text.toString())
             }
         }
 
         searchField.setOnEditorActionListener { _, actionId, _ ->
-            if(actionId != EditorInfo.IME_NULL){
+            if (actionId != EditorInfo.IME_NULL) {
                 GlobalScope.launch {
-                    search(searchField.text.toString())
+                    mPhotoViewModel.search(searchField.text.toString())
                 }
                 true
             } else {
@@ -72,6 +50,20 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        showFavorites.setOnClickListener {
+            val favoriteIntent = Intent(this, FavoriteActivity::class.java)
+            ContextCompat.startActivity(this, favoriteIntent, null)
+        }
+
+        val viewModelFactory = InjectorUtils.providePhotosViewModelFactory(this)
+        mPhotoViewModel =
+            ViewModelProvider(this, viewModelFactory).get(PhotoViewModel::class.java)
+        mPhotoViewModel.getSearchResults()
+            .observe(this,
+                {
+                    updateRecycler()
+        })
+        //updateRecycler()
     }
 
     override fun onResume() {
@@ -79,56 +71,47 @@ class MainActivity : AppCompatActivity() {
         updateRecycler()
     }
 
-    fun search(searchWords : String){
-        println(searchWords)
-        val re = Regex("[^A-Za-z0-9 ]")
-        var cleanString = re.replace(searchWords, "")
-        cleanString = cleanString.replace("\\s".toRegex(), "+")
-
-        myAPI.fetchAllPhotos("18282472-6c502b3572ec282c7e32710e9",cleanString,"photo", 200).enqueue(object : Callback<PhotoList>{
-            override fun onFailure(call: Call<PhotoList>, t: Throwable) {
-                d("error","errorMessage: ${t.message}")
-            }
-
-            override fun onResponse(call: Call<PhotoList>, response: Response<PhotoList?>) {
-                urlArray.clear()
-                imageMap.clear()
-                if(response.body() != null) {
-                    for (photo in response.body()!!.hits) {
-                        imageMap.put(photo.webformatURL, photo)
-                        urlArray.add(photo.webformatURL)
-                    }
+    private val clickTypeListener : (PhotoTextHolder.ClickType) -> Unit = { clickType: PhotoTextHolder.ClickType ->
+        when (clickType) {
+            is PhotoTextHolder.ClickType.ChangeFavoriteStatus -> {
+                if (favoritesRepository.isFavorite(clickType.photo.id)) {
+                    clickType.photo.localFavorite = false
+                    GlobalScope.launch { favoritesRepository.deleteFavorite(clickType.photo) };
+                } else {
+                    clickType.photo.localFavorite = true
+                    GlobalScope.launch { favoritesRepository.addFavorite(clickType.photo) };
                 }
-                println(urlArray.count())
-                updateRecycler()
+
             }
-        })
+            is PhotoTextHolder.ClickType.Item ->  {
+                ContextCompat.startActivity(
+                    clickType.viewContext,
+                    Intent(clickType.viewContext, ImageDetailActivity::class.java)
+                        .putExtra("id", clickType.itemId),
+                    null
+                )
+            }
+        }
     }
 
-    fun updateRecycler(){
-        showFavorites.setOnClickListener {
-            val favoriteIntent = Intent(this, FavoriteActivity::class.java)
-            ContextCompat.startActivity(this, favoriteIntent, null)
+    private fun addFavoriteStatus(inList : LiveData<List<Photo>>) : LiveData<List<Photo>> {
+
+        for (photo in inList.value ?: emptyList()) {
+            photo.localFavorite = favoritesRepository.isFavorite(photo.id)
         }
+        return inList
+    }
+
+    private fun updateRecycler(){
+        Log.d("...","UpdateRecycler Called")
+
+        //TODO Move adapter creation out of update
+
         layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
-
-        adapter = TheAdapter(urlArray)
-        recyclerView.adapter = adapter
+        recyclerView.adapter = LiveDataAdapter(addFavoriteStatus(mPhotoViewModel.getSearchResults()),clickTypeListener)
+        //adapter = LiveDataAdapter(mPhotoViewModel.getSearchResults())
+        //recyclerView.adapter = adapter
     }
 
-    private fun getFavorites() : List<Photo> {
-        return mPhotoViewModel.favorites
-    }
-
-private fun setFavorites(favorites: List<Photo>) {
-    if (favorites.count() > 0) {
-        favoritesArray.clear()
-        favoritesImageMap.clear()
-        for (photo in favorites) {
-            favoritesArray.add(photo.webformatURL)
-            favoritesImageMap[photo.webformatURL] = photo
-        }
-    }
-}
 }

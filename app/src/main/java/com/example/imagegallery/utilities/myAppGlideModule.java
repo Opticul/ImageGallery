@@ -7,12 +7,14 @@ import com.bumptech.glide.Registry;
 import com.bumptech.glide.annotation.GlideModule;
 import com.bumptech.glide.module.AppGlideModule;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.InputStream;
 
 @GlideModule
 public class myAppGlideModule extends AppGlideModule {
     @Override
-    public void registerComponents(Context context, Glide glide, Registry registry) {
+    public void registerComponents(@NotNull Context context, @NotNull Glide glide, @NotNull Registry registry) {
 
     }
 }
