@@ -1,9 +1,11 @@
 package com.example.imagegallery
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
@@ -31,16 +33,23 @@ class MainActivity : AppCompatActivity() {
         initializeUI()
     }
 
+    private fun removeKeyboard() {
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(currentFocus!!.windowToken, 0)
+    }
+
     private fun initializeUI() {
 
         searchButton.setOnClickListener {
+            removeKeyboard()
             GlobalScope.launch {
                 mPhotoViewModel.search(searchField.text.toString())
-            }
+                 }
         }
 
-        searchField.setOnEditorActionListener { _, actionId, _ ->
+        searchField.setOnEditorActionListener { textView, actionId, _ ->
             if (actionId != EditorInfo.IME_NULL) {
+                removeKeyboard()
                 GlobalScope.launch {
                     mPhotoViewModel.search(searchField.text.toString())
                 }

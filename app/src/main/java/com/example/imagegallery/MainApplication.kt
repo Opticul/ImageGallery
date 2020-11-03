@@ -10,6 +10,7 @@ class MainApplication : Application(), HasAppComponent {
     override val  favoritesRepository by lazy{InjectorUtils.provideFavoritesRepository(this)}
     override val photoRepository = InjectorUtils.providePhotoRepository()
 
+
 }
 
 interface HasAppComponent {
