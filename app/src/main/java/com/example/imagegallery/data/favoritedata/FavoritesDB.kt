@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.imagegallery.data.photodata.Photo
 
-@Database(entities = [Photo::class], version = 5, exportSchema = false)
+@Database(entities = [Photo::class], version = 10, exportSchema = false)
 abstract class FavoritesDB : RoomDatabase() {
 
     abstract fun favoritesDao() : FavoritesDao

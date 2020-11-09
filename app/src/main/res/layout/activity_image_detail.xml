@@ -14,7 +14,7 @@
         android:minEms="7"
         android:text="@string/likes"
         android:textColor="#000000"
-        app:layout_constraintBottom_toTopOf="@+id/favorites"
+        app:layout_constraintBottom_toTopOf="@+id/source"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
@@ -50,11 +50,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageTitle"
+        app:layout_constraintTop_toBottomOf="@+id/imageSubtitle"
         app:srcCompat="@drawable/ic_launcher_foreground" />
 
     <TextView
-        android:id="@+id/ImageDetailsText"
+        android:id="@+id/imageDetailsText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -76,37 +76,15 @@
         app:layout_constraintEnd_toStartOf="@+id/imageDetailButton" />
 
     <TextView
-        android:id="@+id/downloads"
+        android:id="@+id/source"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginBottom="8dp"
         android:minEms="7"
-        android:text="@string/downloads"
+        android:text="@string/source"
         android:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/favorites"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:minEms="7"
-        android:text="@string/favorites"
-        android:textColor="#000000"
-        app:layout_constraintBottom_toTopOf="@+id/downloads"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/views"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:minEms="7"
-        android:text="@string/views"
-        android:textColor="#090909"
-        app:layout_constraintBottom_toTopOf="@+id/likes"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -123,4 +101,19 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/imageSubtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/imageName"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="24sp"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageTitle" />
 </androidx.constraintlayout.widget.ConstraintLayout>

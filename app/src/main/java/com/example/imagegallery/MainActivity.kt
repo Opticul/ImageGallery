@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.imagegallery.data.photodata.Photo
 import com.example.imagegallery.ui.favorites.FavoriteActivity
@@ -23,7 +24,7 @@ import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var layoutManager: LinearLayoutManager
+    lateinit var layoutManager: GridLayoutManager
     lateinit var mPhotoViewModel: PhotoViewModel
     private val favoritesRepository by lazy {(applicationContext as HasAppComponent).favoritesRepository }
 
@@ -47,7 +48,7 @@ class MainActivity : AppCompatActivity() {
                  }
         }
 
-        searchField.setOnEditorActionListener { textView, actionId, _ ->
+        searchField.setOnEditorActionListener { _, actionId, _ ->
             if (actionId != EditorInfo.IME_NULL) {
                 removeKeyboard()
                 GlobalScope.launch {
@@ -116,7 +117,7 @@ class MainActivity : AppCompatActivity() {
 
         //TODO Move adapter creation out of update
 
-        layoutManager = LinearLayoutManager(this)
+        layoutManager = GridLayoutManager(this,3)
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = LiveDataAdapter(addFavoriteStatus(mPhotoViewModel.getSearchResults()),clickTypeListener)
         //adapter = LiveDataAdapter(mPhotoViewModel.getSearchResults())

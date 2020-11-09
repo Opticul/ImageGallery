@@ -18,6 +18,7 @@
     <string name="favorites">Favorites: </string>
     <string name="favorite">Favorite</string>
     <string name="unfavorite">Unfavorite</string>
+    <string name="source">source</string>
 
 
 </resources>

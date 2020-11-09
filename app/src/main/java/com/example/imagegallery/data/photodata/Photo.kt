@@ -8,16 +8,16 @@ import java.io.Serializable
 @Entity(tableName = "photo_data")
 
 data class Photo (
-    @PrimaryKey(autoGenerate = true)
+   // @PrimaryKey(autoGenerate = true)
     // Values for pixabay Images
-    var id : Int,
+    @PrimaryKey
+    val id : String,
     val user : String,
-    val user_id : Int,
-    val favorites : Int,
+    val user_id : String,
     val likes : Int,
-    val views: Int,
-    val downloads: Int,
     val webformatURL: String,
-    val previewURL : String,
-    var localFavorite : Boolean
+    val largeImageURL : String,
+    val description : String = "No Description",
+    var localFavorite : Boolean,
+    val source : String
 )

@@ -1,12 +1,9 @@
 package com.example.imagegallery.utilities
 
-import android.app.Application
 import android.content.Context
 import com.example.imagegallery.HasAppComponent
 import com.example.imagegallery.data.favoritedata.FavoritesDB
-import com.example.imagegallery.data.favoritedata.FavoritesDao
 import com.example.imagegallery.data.favoritedata.FavoritesRepository
-import com.example.imagegallery.data.photodata.PhotoDao
 import com.example.imagegallery.data.photodata.PhotoRepository
 import com.example.imagegallery.ui.favorites.FavoritesViewModelFactory
 import com.example.imagegallery.ui.photos.PhotoViewModelFactory

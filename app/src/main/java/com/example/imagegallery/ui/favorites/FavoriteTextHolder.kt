@@ -13,13 +13,13 @@ class FavoriteTextHolder(
 ) : RecyclerView.ViewHolder(view) {
 
     sealed class ClickType {
-        data class Favourites(val itemId: Int) : ClickType()
-        data class Item(val viewContext: Context, val itemId: Int) : ClickType()
+        data class Favourites(val itemId: String) : ClickType()
+        data class Item(val viewContext: Context, val itemId: String) : ClickType()
     }
 
     fun bindItem(item: Photo) {
 
-        Glide.with(view).load(item.previewURL).into(view.image_as_part_of_list_imageView);
+        Glide.with(view).load(item.webformatURL).into(view.image_as_part_of_list_imageView);
         view.setOnLongClickListener {
             clickListener(ClickType.Favourites(item.id)); true
         }

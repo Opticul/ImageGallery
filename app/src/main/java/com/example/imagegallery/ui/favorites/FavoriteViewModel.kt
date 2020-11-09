@@ -11,7 +11,7 @@ import com.example.imagegallery.data.photodata.PhotoRepository
 
 class FavoriteViewModel(private val favoritesRepository: FavoritesRepository) : ViewModel() {
 
-    fun isFavorite(id : Int) = favoritesRepository.isFavorite(id)
+    fun isFavorite(id : String) = favoritesRepository.isFavorite(id)
 
     fun getFavorites() = favoritesRepository.getFavorites()
 
@@ -20,6 +20,6 @@ class FavoriteViewModel(private val favoritesRepository: FavoritesRepository) : 
 
     suspend fun removeFavorite(photo : Photo) = favoritesRepository.deleteFavorite(photo)
 
-    suspend fun removeFavoriteByID(id : Int) = favoritesRepository.deleteFavoriteByID(id)
+    suspend fun removeFavoriteByID(id : String) = favoritesRepository.deleteFavoriteByID(id)
 
 }

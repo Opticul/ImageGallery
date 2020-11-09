@@ -1,33 +1,27 @@
 package com.example.imagegallery.data.photodata
 
-import android.app.Application
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.subjects.PublishSubject
-
 
 class PhotoRepository() {
 
-    private val photoDao = PhotoDao.getInstance()
+    private val dataSource = DataSource.getInstance()
 
     // region implements imageChecks
     // Consider searching towards pixabay for a single item instead of storing here, scales better
-    private val defaultPhoto = Photo(0, "No User", 0, 0, 0, 0, 0, "", "",false)
-    private var photos = mutableMapOf<Int, Photo>()
+    private val defaultPhoto = Photo("","", "No User", 0, "", "", "",  false,"Unknown")
+    private var photos = mutableMapOf<String, Photo>()
 
-    fun getImageById(imageId: Int): Photo {
+    fun getImageById(imageId: String): Photo {
         setPhotos()
         return photos.getOrElse(imageId, { defaultPhoto })
     }
 
     private fun setPhotos() {
         photos.clear()
-        photos = convertToMap(photoDao.getSearchResults().value ?: emptyList())
+        photos = convertToMap(dataSource.getSearchResults().value ?: emptyList())
     }
 
-    private fun convertToMap(inList: List<Photo>): MutableMap<Int, Photo> {
-        val nowMap = mutableMapOf<Int, Photo>()
+    private fun convertToMap(inList: List<Photo>): MutableMap<String, Photo> {
+        val nowMap = mutableMapOf<String, Photo>()
         for (photo in inList) {
             nowMap[photo.id] = photo
         }
@@ -37,8 +31,8 @@ class PhotoRepository() {
     // endregion implements imageChecks
 
     fun search(searchWords: String) {
-        photoDao.search(searchWords)
+        dataSource.search(searchWords)
     }
 
-    fun getSearchResults() = photoDao.getSearchResults()
+    fun getSearchResults() = dataSource.getSearchResults()
     }

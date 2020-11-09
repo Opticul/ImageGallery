@@ -17,7 +17,7 @@ suspend fun deleteFavorite(dbphoto: Photo)
 fun readFavoritesFromDatabase(): List<Photo>//LiveData<List<DBPhoto>>
 
     @Query("SELECT * FROM photo_data WHERE id=:id ")
-    fun getFavoriteByID(id: Int): Photo
+    fun getFavoriteByID(id: String): Photo
 }
 
 

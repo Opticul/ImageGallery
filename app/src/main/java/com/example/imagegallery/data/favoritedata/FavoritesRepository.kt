@@ -9,7 +9,7 @@ class FavoritesRepository(private val favoritesDao : FavoritesDao) {
 
     private val favoritesList = mutableListOf<Photo>()
     private val favorites = MutableLiveData<List<Photo>>()
-    private val defaultPhoto = Photo(0, "No User", 0, 0, 0, 0, 0, "", "",false)
+    private val defaultPhoto = Photo("No User", "", "", 0,  "", "", "", false,"")
 
     init {
         updateFavorites()
@@ -19,7 +19,7 @@ class FavoritesRepository(private val favoritesDao : FavoritesDao) {
         updateFavorites()
     }
 
-    suspend fun deleteFavoriteByID(photo: Int){
+    suspend fun deleteFavoriteByID(photo: String){
         val favorites = getFavorites()
         for (photos in favorites){
             if (photos.id == photo) {
@@ -43,19 +43,19 @@ class FavoritesRepository(private val favoritesDao : FavoritesDao) {
         updateFavorites()
     }
 
-    fun getFavoriteByID(id : Int) : Photo {
-        if (id == 0) {
+    fun getFavoriteByID(id : String) : Photo {
+        if (id == "") {
             return defaultPhoto
         }
         return favoritesDao.getFavoriteByID(id)
     }
 
-    fun isFavorite(id : Int) : Boolean {
+    fun isFavorite(id : String) : Boolean {
         return convertToMap(getFavorites()).containsKey(id)
     }
 
-    private fun convertToMap(inList : List<Photo>) : MutableMap<Int,Photo> {
-        val nowMap = mutableMapOf<Int,Photo>()
+    private fun convertToMap(inList : List<Photo>) : MutableMap<String,Photo> {
+        val nowMap = mutableMapOf<String,Photo>()
         for (photo in inList) {
             nowMap[photo.id] = photo
         }
